@@ -6,11 +6,20 @@ const mongoose = require("mongoose");
 const path = require("path")
 
 // Middleware to parse JSON
+const allowedOrigins = ['http://localhost:3000', 'https://venkata-sanjeeva.github.io'];
+
 app.use(cors({
-  origin: 'http://localhost:3000',  // Allow requests from this origin
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,POST,PUT,DELETE',
   credentials: true
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To handle URL-encoded data
 
