@@ -30,8 +30,8 @@ mongoose.connect(dbUrl)
 
 // Handle connection to the server
 
-// Serve the HTML documentation on the base URL "/"
-app.get("/", (req, res) => {
+// Serve the HTML documentation on the base URL "/documentation"
+app.get("/documentation", (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'documentation.html'));
 });
 
@@ -59,9 +59,14 @@ app.post("/upload/task", (req, res) => {
   taskObj.isEditing = false;
   const task = new Task(taskObj);
 
-  task.save();
-  // res.json(req.body);
-  res.redirect("/")
+  task.save()
+  .then(() => {
+    res.json({ redirect: "/alltasks" });  // Respond with JSON to trigger front-end redirection
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500).send("Error saving task");
+  });
 
 });
 
