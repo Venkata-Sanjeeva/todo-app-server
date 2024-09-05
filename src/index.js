@@ -30,8 +30,8 @@ mongoose.connect(dbUrl)
 
 // Handle connection to the server
 
-// Serve the HTML documentation on the base URL "/"
-app.get("/", (req, res) => {
+// Serve the HTML documentation on the base URL "/documentation"
+app.get("/documentation", (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'documentation.html'));
 });
 
