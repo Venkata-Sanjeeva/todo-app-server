@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const Task = require("./models/tasks"); // Ensure this path is correct
+const Task = require("../models/tasks"); // Ensure this path is correct
 const mongoose = require("mongoose");
 const path = require("path")
 
