@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management Server Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #000;
+            color: #fff;
+        }
+        h1, h2, h3 {
+            color: #fff;
+        }
+        pre {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        ul {
+            color: #ddd;
+        }
+        a {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task Management Server Documentation</h1>
+    <p>This server provides a set of API routes to manage tasks in a MongoDB database. The server uses <strong>Express.js</strong> and <strong>Mongoose</strong> to handle task creation, retrieval, updating, and deletion.</p>
+
+    <h2>Server URL</h2>
+    <p>The server listens on port <strong>5000</strong>.</p>
+
+    <h2>Base URL</h2>
+    <p><strong>http://localhost:5000</strong></p>
+
+    <h2>Middleware</h2>
+    <h3>CORS:</h3>
+    <ul>
+        <li>Allows requests from <strong>http://localhost:3000</strong>.</li>
+        <li>Accepts methods: <strong>GET, POST, PUT, DELETE</strong>.</li>
+        <li>Credentials are enabled.</li>
+    </ul>
+
+    <h3>JSON Parsing:</h3>
+    <p>The server uses <strong>express.json()</strong> to parse incoming JSON data. <strong>express.urlencoded()</strong> is used to handle URL-encoded data.</p>
+
+    <h2>Routes</h2>
+    <h3>1. GET `/`</h3>
+    <p><strong>Description</strong>: This route is used to check the connection to the server.</p>
+    <p><strong>Response</strong>: Logs a message "Connected to server" in the console.</p>
+
+    <h3>2. GET `/alltasks`</h3>
+    <p><strong>Description</strong>: Fetches all tasks from the MongoDB database, sorted by their creation date in descending order.</p>
+    <p><strong>Response</strong>: Returns a JSON array of tasks. In case of an error, returns a 500 status with the message: "Error retrieving tasks."</p>
+
+    <h3>3. POST `/upload/task`</h3>
+    <p><strong>Description</strong>: Adds a new task to the database.</p>
+    <p><strong>Request Body</strong>: JSON object containing the task details. Example:</p>
+    <!-- The <pre> tag in HTML stands for "preformatted text." It is used to display text exactly as it is written in the HTML code, preserving spaces, line breaks, and any other whitespace characters.-->
+
+    <!-- Unlike regular HTML text (which collapses multiple spaces and ignores line breaks), the <pre> tag renders the content in a monospaced (fixed-width) font and displays it exactly as it's typed, which makes it useful for displaying code, formatted text, or preserving the structure of text.  -->
+    <pre>{ "title": "Task Title", "completionDate": "YYYY-MM-DD" }</pre>
+    <p><strong>Response</strong>: Redirects to the home page `/`.</p>
+
+    <h3>4. PUT `/update/task/:id`</h3>
+    <p><strong>Description</strong>: Updates the completion status (`isCompleted`) of a task by its `id`.</p>
+    <p><strong>URL Parameters</strong>: <code>:id</code> – The ID of the task to update.</p>
+    <p><strong>Request Body</strong>: JSON object containing `isCompleted` status. Example:</p>
+    <pre>{ "isCompleted": true }</pre>
+    <p><strong>Response</strong>: JSON response redirecting to `/alltasks`.</p>
+
+    <h3>5. PUT `/update/:id`</h3>
+    <p><strong>Description</strong>: Updates the title of a task by its `id`.</p>
+    <p><strong>URL Parameters</strong>: <code>:id</code> – The ID of the task to update.</p>
+    <p><strong>Request Body</strong>: JSON object containing the new title. Example:</p>
+    <pre>{ "title": "Updated Task Title" }</pre>
+    <p><strong>Response</strong>: JSON response redirecting to `/alltasks`.</p>
+
+    <h3>6. DELETE `/task/delete/:id`</h3>
+    <p><strong>Description</strong>: Deletes a task by its `id`.</p>
+    <p><strong>URL Parameters</strong>: <code>:id</code> – The ID of the task to delete.</p>
+    <p><strong>Response</strong>: JSON response redirecting to `/alltasks`. In case of an error, returns a 500 status with the message: "Error deleting task."</p>
+
+    <h2>Database Connection</h2>
+    <p>The MongoDB connection is made to the database: <strong>augmentixtodoapp</strong> using the connection string provided in the code. If the connection is successful, the server logs "Connected to MongoDB". If the connection fails, it logs the error message.</p>
+
+    <h2>Models</h2>
+    <p>The <strong>Task</strong> model is used in this server to interact with the <code>tasks</code> collection in the MongoDB database.</p>
+
+    <h2>Development Notes</h2>
+    <ul>
+        <li>Ensure the path to the <code>Task</code> model is correct ("./models/tasks").</li>
+        <li>Consider using environment variables (<code>process.env</code>) for MongoDB credentials to improve security.</li>
+    </ul>
+</body>
+</html>
