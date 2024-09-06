@@ -7,10 +7,11 @@ const path = require("path")
 
 // Middleware to parse JSON
 app.use(cors({
-  origin: "https://venkata-sanjeeva.github.io",  // Allow requests from this origin
+  origin: ["https://venkata-sanjeeva.github.io", "http://localhost:3000"],
   methods: 'GET,POST,PUT,DELETE',
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To handle URL-encoded data
@@ -62,7 +63,7 @@ app.post("/upload/task", (req, res) => {
 
   task.save()
   .then(() => {
-    res.json({ redirect: "/alltasks" });  // Respond with JSON to trigger front-end redirection
+    res.json({ redirect: "https://todo-app-server-auu3.onrender.com/alltasks", taskStatus: true });  // Respond with JSON to trigger front-end redirection
   })
   .catch(err => {
     console.error(err);
